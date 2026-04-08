@@ -23,10 +23,10 @@ Developed at the University of Vermont, Department of Mechanical Engineering.
 
 ```bash
 # 1. Pull the hyStrath Docker image
-docker pull hystrath/hystrath-1706:latest
+docker pull shubanpcs/hystrath:release-v1
 
 # 2. Clone this repo
-git clone https://github.com/YOUR_USERNAME/dsmc-plume-workflow.git
+git clone https://github.com/gabejohnsnn/dsmc-plume-workflow.git
 
 # 3. Start a container with the repo mounted
 docker run -it --name dsmc_work \
@@ -131,19 +131,6 @@ The CSV should have columns: `y-coordinate [m]`, `pressure [Pa]`, `temperature [
 
 ---
 
-## Running on UVM VACC
-
-See `scripts/run_dsmc_vacc.sh` for a SLURM submission script using Apptainer.
-
-```bash
-scp -r your-case/ netid@vacc-user2.uvm.edu:~/OpenFOAM_Runs/
-ssh netid@vacc-user2.uvm.edu
-cd ~/OpenFOAM_Runs/your-case
-sbatch ../scripts/run_dsmc_vacc.sh
-```
-
----
-
 ## Repository Structure
 
 ```
@@ -151,41 +138,27 @@ dsmc-plume-workflow/
 ├── README.md
 ├── case-template/
 │   ├── constant/
-│   │   ├── dsmcProperties          # Species and collision model
-│   │   └── dynamicMeshDict         # AMR settings (static by default)
+│   │   ├── dsmcProperties
+│   │   └── dynamicMeshDict
 │   └── system/
-│       ├── controlDict             # Time stepping and output
-│       ├── boundariesDict          # DSMC boundary conditions
-│       ├── dsmcInitialiseDict      # Initial particle distribution
-│       ├── fieldPropertiesDict     # Macroscopic field sampling
-│       ├── fvSchemes               # All "none" for DSMC
-│       ├── fvSolution              # Empty for DSMC
-│       ├── controllersDict         # Empty (no controllers)
-│       ├── topoSetDict             # Face set splitting by normal
-│       └── createPatchDict         # Patch creation from face sets
+│       ├── controlDict
+│       ├── boundariesDict
+│       ├── dsmcInitialiseDict
+│       ├── fieldPropertiesDict
+│       ├── fvSchemes
+│       ├── fvSolution
+│       ├── controllersDict
+│       ├── topoSetDict
+│       └── createPatchDict
 ├── scripts/
-│   ├── rotatePoints.py             # Rotate slab mesh to ±2.5° wedge
-│   ├── fixAxisPoints2.py           # Fix degenerate axis cells
-│   ├── splitInlet.py               # Split inlet for spatially varying BCs
-│   └── run_dsmc_vacc.sh            # SLURM script for UVM VACC
+│   ├── rotatePoints.py
+│   ├── fixAxisPoints2.py
+│   ├── splitInlet.py
+│   └── sbatch.sh
 └── docs/
-    └── dsmcFoam_Windows_Guide.docx # Comprehensive setup guide
+    └── dsmcFoam_Windows_Guide.docx
 ```
 
----
-
-## Troubleshooting
-
-| Error | Cause | Fix |
-|-------|-------|-----|
-| Wedge patch is not planar | Wedge type set before rotating points | Set patches as `patch` first, rotate, then change to `wedge` |
-| Poly-patch count mismatch | `dsmcPatchBoundaries` count ≠ non-empty/non-wedge/non-symmetry patches | Count patches with `grep type constant/polyMesh/boundary` and match |
-| Cannot find patchField entry | Stale `0/` directory from previous mesh | `rm -rf 0/` then `dsmcInitialise+` |
-| Segfault during particle tracking | Degenerate axis cells or missing patch handler | Run `fixAxisPoints2.py`; ensure all patches have boundary models |
-| No particles created | `nEquivalentParticles` too large for background density | Decrease `nEquivalentParticles` or increase initialization density |
-| Stuck on "Starting time loop" | Zero particles or very slow timestep | Check `0/lagrangian/dsmcCloud/` exists; check CPU usage with `top` |
-
----
 
 ## References
 
