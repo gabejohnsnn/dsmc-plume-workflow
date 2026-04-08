@@ -1,0 +1,43 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    frontFaces;
+        type    faceSet;
+        action  new;
+        source  normalToFace;
+        sourceInfo
+        {
+            normal  (0 0 1);
+            cos     0.5;
+        }
+    }
+    {
+        name    backFaces;
+        type    faceSet;
+        action  new;
+        source  normalToFace;
+        sourceInfo
+        {
+            normal  (0 0 -1);
+            cos     0.5;
+        }
+    }
+);
+
+// ************************************************************************* //

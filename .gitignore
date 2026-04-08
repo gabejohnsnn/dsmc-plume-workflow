@@ -1,0 +1,29 @@
+# OpenFOAM runtime outputs
+0/
+0.*/
+[1-9]*/
+processor*/
+postProcessing/
+constant/polyMesh/sets/
+dynamicCode/
+
+# Log files
+log.*
+*.log
+
+# ParaView
+*.foam
+*.pvd
+*.vtp
+*.vtk
+VTK/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files from scripts
+*.bak
+*.bak2
+*.bak3
+*.bak_pre_split

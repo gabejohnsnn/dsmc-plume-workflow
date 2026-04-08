@@ -1,0 +1,57 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dsmcProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// --- General DSMC Properties ---
+
+nEquivalentParticles    1e12;
+// Number of real molecules per DSMC simulator particle.
+// Tune this so you get ~20 particles per cell on average.
+// Start with 1e12 and adjust based on particle count after dsmcInitialise+.
+
+
+// --- Collision Model ---
+
+BinaryCollisionModel    VariableHardSphere;
+
+
+// --- Molecular Species List ---
+
+typeIdList              (EqGas);
+
+
+// --- Molecule Properties ---
+
+moleculeProperties
+{
+    EqGas
+    {
+        mass                        3.384e-26;      // kg (M = 20.38 g/mol)
+        diameter                    4.0e-10;        // m (reference diameter)
+        omega                       0.77;           // viscosity index (VHS)
+        alpha                       1.0;            // VSS parameter (1.0 = VHS)
+        rotationalDegreesOfFreedom  0;              // monatomic equivalent
+        vibrationalModes            0;              // no vibrational modes
+        dissociationTemperature     0;              // not applicable
+        Zref                        ()  ;           // not applicable
+        referenceTempForZref        ()  ;           // not applicable
+        charVibrationalTemp         ()  ;           // not applicable
+        ionisationTemperature       0;              // not applicable
+        charge                      0;              // neutral
+    }
+}
+
+
+// ************************************************************************* //

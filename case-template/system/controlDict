@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application         dsmcFoam+;
+
+startFrom           latestTime;
+
+startTime           0;
+
+stopAt              endTime;
+
+endTime             0.004;
+
+deltaT              2e-7;
+// Time step must be smaller than mean collision time.
+// At inlet: mfp ~ 3.6e-5 m, V ~ 2393 m/s
+// Transit time per cell ~ dx / V. Adjust deltaT to be a fraction of this.
+
+writeControl        runTime;
+
+writeInterval       0.0004;
+
+purgeWrite          0;
+
+writeFormat         ascii;
+
+writePrecision      10;
+
+writeCompression    uncompressed;
+
+timeFormat          general;
+
+timePrecision       6;
+
+runTimeModifiable   yes;
+
+functions
+{
+    fieldAverage1
+    {
+        type                fieldAverage;
+        functionObjectLibs  ("libfieldFunctionObjects.so");
+        writeControl        writeTime;
+        fields
+        (
+            rhoN_EqGas
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+            rhoM_EqGas
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+            p_EqGas
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+            Ttra_EqGas
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+            U_EqGas
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+        );
+    }
+}
+
+// ************************************************************************* //

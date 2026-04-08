@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      boundariesDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dsmcPatchBoundaries
+(
+    // --- Inlet: supersonic freestream inflow ---
+    boundary
+    {
+        patchName           inlet;
+        boundaryModel       dsmcFreeStreamInflowPatch;
+
+        dsmcFreeStreamInflowPatchProperties
+        {
+            typeIds                 (EqGas);
+            numberDensities         (3.871e22);     // m^-3
+            translationalTemperature 823;           // K
+            rotationalTemperature   0;              // monatomic
+            vibrationalTemperature  0;              // monatomic
+            velocity                (2370 332 0);   // m/s (axial, radial, 0)
+        }
+    }
+
+    // --- Wall: fully diffuse reflection ---
+    boundary
+    {
+        patchName           wall;
+        boundaryModel       dsmcDiffuseWallPatch;
+
+        dsmcDiffuseWallPatchProperties
+        {
+            velocity            (0 0 0);    // stationary wall
+            temperature         300;        // wall temperature [K]
+        }
+    }
+
+    // --- Outlet: vacuum (particles deleted on exit) ---
+    boundary
+    {
+        patchName           outlet;
+        boundaryModel       dsmcDeletionPatch;
+
+        dsmcDeletionPatchProperties
+        {
+            allSpecies  yes;
+        }
+    }
+
+    // --- Axis: particles deleted (no physical axis boundary in DSMC) ---
+    // Note: axis patch is type "empty" in polyMesh/boundary,
+    // so no DSMC boundary model is needed here.
+    // If your axis patch is type "symmetry" instead of "empty",
+    // uncomment the block below:
+    //
+    // boundary
+    // {
+    //     patchName           axis;
+    //     boundaryModel       dsmcSpecularWallPatch;
+    //     dsmcSpecularWallPatchProperties
+    //     {}
+    // }
+);
+
+dsmcCyclicBoundaries
+(
+);
+
+dsmcGeneralBoundaries
+(
+);
+
+// ************************************************************************* //

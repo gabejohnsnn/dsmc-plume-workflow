@@ -1,0 +1,40 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dsmcInitialiseDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+configurations
+(
+    configuration
+    {
+        type                    dsmcMeshFill;
+
+        dsmcMeshFillProperties
+        {
+            typeIds                     (EqGas);
+
+            // Initialize with low-density background (near vacuum)
+            // This represents the ambient conditions the plume expands into.
+            // Using a low number density to represent near-vacuum.
+            numberDensities             (1e18);
+
+            translationalTemperature    300;    // K (background temp)
+            rotationalTemperature       0;      // monatomic
+            vibrationalTemperature      0;      // monatomic
+            velocity                    (0 0 0);
+        }
+    }
+);
+
+// ************************************************************************* //

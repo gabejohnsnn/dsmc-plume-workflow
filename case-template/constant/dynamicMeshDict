@@ -1,0 +1,37 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Use staticFvMesh for initial runs. Switch to dynamicRefineFvMesh for AMR.
+dynamicFvMesh   staticFvMesh;
+
+dynamicRefineFvMeshCoeffs
+{
+    refineInterval  1000;
+    field           SOFP_EqGas;
+    lowerRefineLevel 0.75;
+    upperRefineLevel 100;
+    unrefineLevel 0.25;
+    nBufferLayers   1;
+    maxRefinement   3;
+    maxCells        2000000;
+    correctFluxes
+    (
+    );
+    dumpLevel       true;
+}
+
+// ************************************************************************* //
