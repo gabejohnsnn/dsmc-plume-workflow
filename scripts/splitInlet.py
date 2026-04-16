@@ -3,15 +3,7 @@
 Split the inlet patch into 15 individual patches with spatially varying
 properties interpolated from CFD exit plane data.
 
-Usage:
-    python3 splitInlet.py <path_to_case> <path_to_csv>
-
-This script:
-1. Reads the CFD CSV and computes face-center-averaged properties for each inlet face
-2. Rewrites constant/polyMesh/boundary with 15 inlet patches
-3. Generates a new system/boundariesDict with per-face inflow conditions
-
-IMPORTANT: Run this BEFORE dsmcInitialise+. Delete 0/ first if it exists.
+Run this BEFORE dsmcInitialise+. Delete 0/ first if it exists.
 """
 
 import sys
@@ -28,12 +20,10 @@ if len(sys.argv) < 3:
 case_dir = Path(sys.argv[1])
 csv_file = sys.argv[2]
 
-# === Constants ===
 kB = 1.381e-23
 m_molecule = 3.384e-26  # kg (EqGas)
 R_gas = 408.0  # J/kg-K
 
-# === Read CSV ===
 with open(csv_file, 'r') as f:
     reader = csv.DictReader(f)
     cfd_rows = list(reader)
@@ -45,7 +35,6 @@ cfd_rho = np.array([float(r['density [kg/m3]']) for r in cfd_rows])
 cfd_Vax = np.array([float(r['axial-velocity [m/s]']) for r in cfd_rows])
 cfd_Vrad = np.array([float(r['radial-velocity [m/s]']) for r in cfd_rows])
 
-# === Read mesh points ===
 with open(case_dir / 'constant' / 'polyMesh' / 'points', 'r') as f:
     lines = f.readlines()
 
@@ -63,7 +52,6 @@ for line in lines:
         if len(coords) == 3:
             points.append([float(c) for c in coords])
 
-# === Read mesh faces ===
 with open(case_dir / 'constant' / 'polyMesh' / 'faces', 'r') as f:
     lines = f.readlines()
 
@@ -81,11 +69,9 @@ for line in lines:
         pts = s[idx:].strip('()').split()
         faces.append([int(p) for p in pts])
 
-# === Read existing boundary ===
 with open(case_dir / 'constant' / 'polyMesh' / 'boundary', 'r') as f:
     boundary_text = f.read()
 
-# === Compute face centers and interpolate CFD data ===
 inlet_start_face = 117074
 n_inlet_faces = 15
 
@@ -95,14 +81,12 @@ for i in range(n_inlet_faces):
     ys = [math.sqrt(points[p][1]**2 + points[p][2]**2) for p in face]
     r_center = sum(ys) / len(ys)
 
-    # Interpolate CFD data to this radial position
     P = float(np.interp(r_center, cfd_y, cfd_P))
     T = float(np.interp(r_center, cfd_y, cfd_T))
     rho = float(np.interp(r_center, cfd_y, cfd_rho))
     Vax = float(np.interp(r_center, cfd_y, cfd_Vax))
     Vrad = float(np.interp(r_center, cfd_y, cfd_Vrad))
 
-    # Convert to number density: n = P / (kB * T)
     n = P / (kB * T)
 
     face_data.append({
@@ -120,7 +104,6 @@ for i in range(n_inlet_faces):
           f"P={P:.1f} Pa, T={T:.1f} K, n={n:.3e} m-3, "
           f"V=({Vax:.0f}, {Vrad:.0f}, 0) m/s")
 
-# === Write new boundary file ===
 # Original patches (minus inlet):
 #   wall:   type wall,      nFaces 1,     startFace 117089
 #   axis:   type symmetry,  nFaces 300,   startFace 117090
