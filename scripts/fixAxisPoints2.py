@@ -1,16 +1,4 @@
 #!/usr/bin/env python3
-"""
-Fix degenerate axis cells in a wedge mesh.
-
-Restores from the .bak file (pre-wedge-rotation flat slab), offsets
-any Y=0 points to a small positive value, then re-applies the wedge
-rotation to ALL points.
-
-Usage:
-    python3 fixAxisPoints2.py <path_to_points_file>
-
-Expects points.bak to exist (created by rotatePoints.py).
-"""
 
 import sys
 import math
