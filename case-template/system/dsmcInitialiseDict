@@ -18,22 +18,17 @@ configurations
 (
     configuration
     {
-        type                    dsmcMeshFill;
-
-        dsmcMeshFillProperties
+        type            dsmcMeshFill;
+        typeIds         (EqGas);
+        numberDensities
         {
-            typeIds                     (EqGas);
-
-            // Initialize with low-density background (near vacuum)
-            // This represents the ambient conditions the plume expands into.
-            // Using a low number density to represent near-vacuum.
-            numberDensities             (1e18);
-
-            translationalTemperature    300;    // K (background temp)
-            rotationalTemperature       0;      // monatomic
-            vibrationalTemperature      0;      // monatomic
-            velocity                    (0 0 0);
-        }
+            EqGas       1e18;
+        };
+        translationalTemperature    300;
+        rotationalTemperature       0;
+        vibrationalTemperature      0;
+        electronicTemperature       0;
+        velocity                    (0 0 0);
     }
 );
 
