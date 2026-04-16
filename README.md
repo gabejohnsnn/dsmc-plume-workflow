@@ -22,18 +22,18 @@ Developed at the University of Vermont, Department of Mechanical Engineering.
 ### Setup
 
 ```bash
-# 1. Pull the hyStrath Docker image
-docker pull shubanpcs/hystrath:release-v1
+# Pull the hyStrath Docker image
+docker pull gabejohnsnn/dsmc-hystrath:v1706
 
-# 2. Clone this repo
+# Clone this repo
 git clone https://github.com/gabejohnsnn/dsmc-plume-workflow.git
 
-# 3. Start a container with the repo mounted
+# Start a container with the repo mounted
 docker run -it --name dsmc_work \
   -v /path/to/dsmc-plume-workflow:/home/openfoam/cases \
   hystrath/hystrath-1706:latest
 
-# 4. Inside the container
+# Inside the container
 cd /home/openfoam/cases
 ```
 
