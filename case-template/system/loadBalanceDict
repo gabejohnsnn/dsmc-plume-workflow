@@ -14,6 +14,8 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-enableBalancing     false;
+enableBalancing             false;
+maximumAllowableImbalance   0.15;
+balanceEveryNTimesteps      100;
 
 // ************************************************************************* //
