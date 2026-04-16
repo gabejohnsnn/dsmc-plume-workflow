@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-"""
-Rotate a 2D slab OpenFOAM mesh into an axisymmetric wedge.
-
-Usage:
-    python3 rotatePoints.py /path/to/case/constant/polyMesh/points
-
-Creates a backup of the original file as points.bak before overwriting.
-"""
 
 import sys
 import math
