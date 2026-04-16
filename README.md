@@ -1,10 +1,6 @@
 # dsmcFoam+ Axisymmetric Plume Simulation Workflow
 
-Complete workflow for running DSMC plume simulations using **dsmcFoam+** (hyStrath framework, OpenFOAM v1706) on Windows via Docker.
-
-Includes tools for converting 2D ANSYS meshes to OpenFOAM axisymmetric wedge format, configuring dsmcFoam+ case files, and running on the UVM VACC cluster.
-
-Developed at the University of Vermont, Department of Mechanical Engineering.
+This is a complete workflow for running DSMC plume simulations using **dsmcFoam+** (hyStrath framework, OpenFOAM v1706) on Windows via Docker. It includes tools for converting 2D ANSYS meshes to OpenFOAM axisymmetric wedge format and configuring dsmcFoam+ case files.
 
 ---
 
@@ -31,7 +27,15 @@ git clone https://github.com/gabejohnsnn/dsmc-plume-workflow.git
 # Start a container with the repo mounted
 docker run -it --name dsmc_work \
   -v /path/to/dsmc-plume-workflow:/home/openfoam/cases \
-  hystrath/hystrath-1706:latest
+  gabejohnsnn/dsmc-hystrath:v1706
+
+# Source OpenFOAM
+source /opt/OpenFOAM/setImage_v1706.sh
+
+# Check the container has been mounted
+# These should return file paths like: /root/OpenFOAM/-v1706/platforms/linux64GccDPInt32Opt/bin/dsmcFoam+
+which dsmcFoam+
+which dsmcInitialise+
 
 # Inside the container
 cd /home/openfoam/cases
