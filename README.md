@@ -60,6 +60,15 @@ checkMesh
 cp ../case-template/system/topoSetDict system/
 cp ../case-template/system/createPatchDict system/
 topoSet
+```
+Now edit constant/polyMesh/boundary. The wedges must be changed to patch type before the point rotation:
+
+front and back → type wedge
+axis → type symmetry
+inlet → type patch
+outlet → type patch
+wall → type wall
+Update the patch count at the top of the file to match (typically 6)
 createPatch -overwrite
 
 # Rotate points to ±2.5° wedge
