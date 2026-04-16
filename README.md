@@ -71,17 +71,6 @@ python3 ../scripts/rotatePoints.py constant/polyMesh/points
 # Fix degenerate axis cells
 python3 ../scripts/fixAxisPoints2.py constant/polyMesh/points
 ```
- 
-Then edit `constant/polyMesh/boundary` — the patches must be changed to `wedge` type **after** the point rotation, not before:
-- `front` and `back` → type `wedge`
-- `axis` → type `symmetry`
-- `inlet` → type `patch`
-- `outlet` → type `patch`
-- `wall` → type `wall`
-- Update the patch count at the top of the file to match (typically 6)
-```bash
-checkMesh
-```
 
 Then edit `constant/polyMesh/boundary`:
 - `front` and `back` → type `wedge`
@@ -126,17 +115,16 @@ tail -f log.dsmcFoam
 
 ### Step 5: Visualize
 
-Create `case.foam` (empty file) and open in ParaView. Recommended fields:
-- `rhoN_EqGas` (number density) — use log scale
-- `Ttra_EqGas` (translational temperature)
-- `Ma_EqGas` (Mach number)
-- `U_EqGas` (velocity)
+Create `case.foam` (empty file) and open in ParaView.
+```bash
+touch case.foam
+```
 
 ---
 
 ## Spatially Varying Inlet Conditions
 
-If you have CFD exit plane data (e.g., from a nozzle simulation), the `splitInlet.py` script can split your inlet patch into per-face zones with interpolated properties:
+The `splitInlet.py` script can split your inlet patch into per-face zones with interpolated properties:
 
 ```bash
 python3 ../scripts/splitInlet.py . /path/to/CFD-output.csv
@@ -148,34 +136,6 @@ dsmcFoam+
 The CSV should have columns: `y-coordinate [m]`, `pressure [Pa]`, `temperature [K]`, `density [kg/m3]`, `axial-velocity [m/s]`, `radial-velocity [m/s]`.
 
 ---
-
-## Repository Structure
-
-```
-dsmc-plume-workflow/
-├── README.md
-├── case-template/
-│   ├── constant/
-│   │   ├── dsmcProperties
-│   │   └── dynamicMeshDict
-│   └── system/
-│       ├── controlDict
-│       ├── boundariesDict
-│       ├── dsmcInitialiseDict
-│       ├── fieldPropertiesDict
-│       ├── fvSchemes
-│       ├── fvSolution
-│       ├── controllersDict
-│       ├── topoSetDict
-│       └── createPatchDict
-├── scripts/
-│   ├── rotatePoints.py
-│   ├── fixAxisPoints2.py
-│   ├── splitInlet.py
-│   └── sbatch.sh
-└── docs/
-    └── dsmcFoam_Windows_Guide.docx
-```
 
 
 ## References
