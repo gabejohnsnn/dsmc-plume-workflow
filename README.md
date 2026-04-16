@@ -60,7 +60,7 @@ checkMesh
 cp ../case-template/system/topoSetDict system/
 cp ../case-template/system/createPatchDict system/
 topoSet
-createPatch-overwrite
+createPatch -overwrite
 ```
 
 For the next two scripts, create a new terminal and enter the case directory
