@@ -60,22 +60,27 @@ checkMesh
 cp ../case-template/system/topoSetDict system/
 cp ../case-template/system/createPatchDict system/
 topoSet
+createPatch-overwrite
 ```
-Now edit constant/polyMesh/boundary. The wedges must be changed to patch type before the point rotation:
 
-front and back → type wedge
-axis → type symmetry
-inlet → type patch
-outlet → type patch
-wall → type wall
-Update the patch count at the top of the file to match (typically 6)
-createPatch -overwrite
-
+For the next two scripts, create a new terminal and enter the case directory
+```bash
 # Rotate points to ±2.5° wedge
 python3 ../scripts/rotatePoints.py constant/polyMesh/points
-
+ 
 # Fix degenerate axis cells
 python3 ../scripts/fixAxisPoints2.py constant/polyMesh/points
+```
+ 
+Then edit `constant/polyMesh/boundary` — the patches must be changed to `wedge` type **after** the point rotation, not before:
+- `front` and `back` → type `wedge`
+- `axis` → type `symmetry`
+- `inlet` → type `patch`
+- `outlet` → type `patch`
+- `wall` → type `wall`
+- Update the patch count at the top of the file to match (typically 6)
+```bash
+checkMesh
 ```
 
 Then edit `constant/polyMesh/boundary`:
