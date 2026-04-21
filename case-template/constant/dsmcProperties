@@ -23,7 +23,7 @@ nEquivalentParticles    1e12;
 
 
 // --- Collision Model ---
-
+collisionPartnerSelectionModel   		 noTimeCounter;
 BinaryCollisionModel    VariableHardSphere;
 
 
