@@ -32,6 +32,21 @@ dsmcFields
             typeIds                 (EqGas);
         }
     }
+
+    field
+    {
+        fieldModel          dsmcVolFields;
+        timeProperties
+        {
+            timeOption          write;
+            resetAtOutput       on;
+        }
+        dsmcVolFieldsProperties
+        {
+            fieldName               meanFreePath;
+            typeIds                 (EqGas); 
+        }
+    }
 );
 
 // ************************************************************************* //
