@@ -88,6 +88,16 @@ functions
             }
         );
     }
+
+    calcKn
+    {
+        type            fieldExpression;
+        libs            (fieldFunctionObjects);
+        fieldName       Kn;
+        expression      "meanFreePath / 0.01";
+        runTimeModifiable true;
+        write           true;
+    }
 }
 
 // ************************************************************************* //
