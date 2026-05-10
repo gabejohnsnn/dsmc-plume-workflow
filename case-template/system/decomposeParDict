@@ -1,0 +1,33 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1706                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Number of subdomains the case is split into for parallel running.
+// Must equal the number of MPI ranks passed to mpirun -np <N>.
+numberOfSubdomains 4;
+
+method          scotch;
+
+// Uncomment and edit if switching to simple decomposition:
+// method          simple;
+// simpleCoeffs
+// {
+//     n               (4 1 1);   // must multiply to numberOfSubdomains
+//     delta           0.001;
+// }
+
+
+// ************************************************************************* //
