@@ -43,6 +43,35 @@ cd /home/openfoam/cases
 
 ---
 
+### Re-entering an existing container
+ 
+`docker run` with `--name dsmc_work` is a one-time command. After the first session, use the commands below to get back into the same container (which preserves your shell history, sourced environment, any files you created outside the mount, and any background `dsmcFoam+` processes).
+ 
+**Check container state first:**
+ 
+```bash
+# Lists ALL containers (running + stopped). Look for dsmc_work and check STATUS.
+docker ps -a
+```
+ 
+**If the container is running** (`STATUS` shows `Up X minutes`):
+ 
+```bash
+docker exec -it dsmc_work bash
+ 
+source /opt/OpenFOAM/setImage_v1706.sh
+cd /home/openfoam/cases
+```
+ 
+**If the container is stopped** (`STATUS` shows `Exited (...)`):
+ 
+```bash
+docker start dsmc_work
+docker exec -it dsmc_work bash
+source /opt/OpenFOAM/setImage_v1706.sh
+cd /home/openfoam/cases
+
+
 ## Workflow
 
 ### Step 1: Import ANSYS Mesh
