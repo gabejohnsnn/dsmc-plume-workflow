@@ -70,7 +70,7 @@ docker start dsmc_work
 docker exec -it dsmc_work bash
 source /opt/OpenFOAM/setImage_v1706.sh
 cd /home/openfoam/cases
-
+```
 
 ## Workflow
 
